@@ -18,7 +18,7 @@ class _CounterPageState extends State<CounterPage>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Title'),
+        title: Text('Counter'),
         centerTitle: true ,
 
       ),
