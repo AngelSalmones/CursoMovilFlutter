@@ -25,6 +25,16 @@
             "route" : "inputs",
             "icon" : "input",
             "text": "Inputs"
+        },
+        {
+            "route" : "slider",
+            "icon" : "tune",
+            "text" : "Sliders"
+        },
+        {
+            "route" : "list",
+            "icon"  : "list",
+            "text"  : "List"
         }
     ]
 }
