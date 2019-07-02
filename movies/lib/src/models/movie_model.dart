@@ -78,6 +78,15 @@ class Movie {
 
   }
 
+  getBackgroundImg () {
+    if (backdropPath==null){
+      return 'https://www.jainsusa.com/images/store/landscape/not-available.jpg';
+    }else{
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+
+  }
+
 
 }
 
