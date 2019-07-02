@@ -1,0 +1,4 @@
+#Tue Jul 02 16:23:33 CDT 2019
+base.0=/home/angel/Escritorio/flutter/design/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
