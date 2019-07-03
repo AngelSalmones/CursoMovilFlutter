@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:path/path.dart';
-import 'package:qrscanner/src/models/scan_model.dart';
+import 'package:qrscanner/src/models/scans_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-export 'package:qrscanner/src/models/scan_model.dart';
+export 'package:qrscanner/src/models/scans_model.dart';
 
 class DBProvider {
 
@@ -31,8 +31,7 @@ class DBProvider {
         version: 8,
         onOpen: (db) {},
         onCreate: ( Database db, int version ) async {
-          await db.execute(
-              'CREATE TABLE Scans (id INTEGER PRIMARY KEY, type TEXT, value TEXT)');
+          await db.execute('CREATE TABLE Scans (id INTEGER PRIMARY KEY, type TEXT, value TEXT)');
         }
 
     );
@@ -72,7 +71,7 @@ class DBProvider {
     final db = await database;
     final result = await db.query('Scans');
 
-    List<ScanModel> list = result.isEmpty ? result.map((c)=> ScanModel.fromJson(c)).toList() : [];
+    List<ScanModel> list = result.isNotEmpty ? result.map((c)=> ScanModel.fromJson(c)).toList() : [];
 
     return list;
   }
@@ -102,7 +101,7 @@ class DBProvider {
     return result;
   }
 
-  Future<int> deleteAll (int id)async{
+  Future<int> deleteAll ()async{
     final db = await database;
     final result = await db.rawDelete('DELETE FROM Scans');
     return result;
