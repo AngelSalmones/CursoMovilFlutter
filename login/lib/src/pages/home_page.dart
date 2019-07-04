@@ -1,43 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:login/src/blocs/products_bloc.dart';
 import 'package:login/src/blocs/provider.dart';
 import 'package:login/src/models/product_model.dart';
 import 'package:login/src/providers/products_provider.dart';
 
 class HomePage extends StatelessWidget{
 
-  final productProvider = new ProductsProvider();
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
+
+    final productsBloc = Provider.porductsbloc(context);
+    productsBloc.chargerProducts();
 
     return Scaffold(
       appBar: AppBar(
         title: Text('HOME PAGE'),
       ),
-      body: _createList(),
+      body: _createList(productsBloc),
       floatingActionButton: _createbotton(context),
     );
   }
 
-  Widget _createList() {
-    return FutureBuilder(
-      future: productProvider.chargeProducts(),
-      builder: (BuildContext context , AsyncSnapshot <List<ProductModel>> snapshot){
+  Widget _createList(ProducsBloc producsBloc) {
+
+    return StreamBuilder(
+      stream: producsBloc.productsStream,
+      builder: (BuildContext context ,AsyncSnapshot <List<ProductModel>> snapshot){
         if (snapshot.hasData){
           final products = snapshot.data;
           return ListView.builder(
             itemCount: products.length,
-            itemBuilder:  (context, i) =>_createItem( context,products[i]),
+            itemBuilder:  (context, i) =>_createItem( context,producsBloc,products[i]),
           );
         }else
-          {
-            return Center(child: CircularProgressIndicator(),);
-          }
+        {
+          return Center(child: CircularProgressIndicator(),);
+        }
       },
+
     );
+
   }
 
-  Widget _createItem (BuildContext context,ProductModel product){
+  Widget _createItem (BuildContext context,ProducsBloc producsBloc,ProductModel product){
 
     return Dismissible(
       key: UniqueKey(),
@@ -45,7 +52,8 @@ class HomePage extends StatelessWidget{
         color: Colors.red,
       ),
       onDismissed: (direction){
-        productProvider.deleteProduct(product.id);
+        //productProvider.deleteProduct(product.id);
+        producsBloc.deleteProduct(product.id);
       },
       child: Card(
         child: Column(

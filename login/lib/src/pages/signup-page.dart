@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:login/src/blocs/login_bloc.dart';
 import 'package:login/src/blocs/provider.dart';
 import 'package:login/src/providers/user_provider.dart';
+import 'package:login/src/utils/utils.dart';
 
 class SignupPage extends StatelessWidget{
   final userProvider = new UserProvider();
@@ -195,8 +196,16 @@ class SignupPage extends StatelessWidget{
 
   }
 
-  _register (LoginBloc bloc, BuildContext context){
-    userProvider.newUser(bloc.email, bloc.password);
+  _register (LoginBloc bloc, BuildContext context)async{
+
+
+  final info = await userProvider.newUser(bloc.email, bloc.password);
+
+  if (info['ok']){
+    Navigator.pushReplacementNamed(context, 'home');
+  }else{
+    showAlert(context, info['message']);
+  }
 
 //    Navigator.pushNamed(context, 'home');
 

@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:login/src/preferences/preferences_user.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ import 'package:login/src/models/product_model.dart';
 class ProductsProvider {
 
   final String _url = 'https://flutter-other.firebaseio.com';
+  final _prefs = new PreferencesUser();
 
   Future <bool> createProduct (ProductModel product) async{
     final url = '$_url/product.json';
@@ -23,7 +25,7 @@ class ProductsProvider {
    }
 
   Future <bool> editProduct (ProductModel product) async{
-    final url = '$_url/product/${product.id}.json';
+    final url = '$_url/product/${product.id}.json?auth=${ _prefs.token}';
 
     final result = await http.put(url, body: productModelToJson(product));
 
@@ -38,13 +40,14 @@ class ProductsProvider {
 
    Future<List<ProductModel>> chargeProducts() async{
 
-    final url = '$_url/product.json';
+    final url = '$_url/product.json?auth=${ _prefs.token}';
     final result = await http.get(url);
 
     final Map<String ,dynamic> decodeData = json.decode(result.body);
     final List<ProductModel>products = new List();
 
     if (decodeData == null) return [];
+    //if (decodeData['error' != null]) return [];
 
     decodeData.forEach((id,prod){
       final prodTemp = ProductModel.fromJson(prod);
@@ -60,7 +63,7 @@ class ProductsProvider {
 
    Future <int> deleteProduct (String id)async{
 
-    final url = '$_url/product/$id.json';
+    final url = '$_url/product/$id.json?auth=${ _prefs.token}';
     final result = await http.delete(url);
 
     return 1;

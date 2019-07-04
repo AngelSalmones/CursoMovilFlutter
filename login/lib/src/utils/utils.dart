@@ -1,4 +1,4 @@
-
+import 'package:flutter/material.dart';
 
 bool isNumeric (String s){
 
@@ -7,4 +7,22 @@ bool isNumeric (String s){
   final n = num.tryParse(s);
   return (n==null)? false : true;
 
+}
+
+void showAlert (BuildContext context , String message){
+  
+  showDialog(context: context,
+  builder: (context){
+    return AlertDialog(
+      title: Text('Informacion no valid'),
+      content: Text(message),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('ok'),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ],
+    );
+  });
+  
 }
