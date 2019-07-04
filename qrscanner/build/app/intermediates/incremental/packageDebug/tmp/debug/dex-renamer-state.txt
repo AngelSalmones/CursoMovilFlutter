@@ -1,0 +1,4 @@
+#Wed Jul 03 11:45:50 CDT 2019
+base.0=/home/angel/Escritorio/flutter/qrscanner/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
