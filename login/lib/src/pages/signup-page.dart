@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:login/src/blocs/login_bloc.dart';
 import 'package:login/src/blocs/provider.dart';
+import 'package:login/src/providers/user_provider.dart';
 
-class LoginPage extends StatelessWidget{
+class SignupPage extends StatelessWidget{
+  final userProvider = new UserProvider();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -64,12 +67,12 @@ class LoginPage extends StatelessWidget{
       ],
     );
   }
-  
+
   Widget _loginform(BuildContext context){
 
     final bloc = Provider.of(context);
     final size = MediaQuery.of(context).size;
-    
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -98,7 +101,7 @@ class LoginPage extends StatelessWidget{
             ),
             child: Column(
               children: <Widget>[
-                Text ('Ingreso',style: TextStyle(fontSize: 20.0),),
+                Text ('Create Acount',style: TextStyle(fontSize: 20.0),),
                 SizedBox(height: 30.0,),
                 _createEmail(bloc),
                 SizedBox(height: 30.0,),
@@ -110,14 +113,14 @@ class LoginPage extends StatelessWidget{
           ),
 
           FlatButton(
-            child: Text('sign up'),
-            onPressed: ()=> Navigator.pushReplacementNamed(context, 'signup'),
+            child: Text('Login...'),
+            onPressed: ()=> Navigator.pushReplacementNamed(context, 'login'),
           ),
           SizedBox(height: 100.0,),
         ],
       ),
     );
-    
+
   }
 
   Widget _createEmail (LoginBloc bloc){
@@ -131,10 +134,10 @@ class LoginPage extends StatelessWidget{
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                icon: Icon(Icons.alternate_email,color: Colors.deepPurple,),
-                hintText: 'Example@mail.com',
-                labelText: 'Email',
-                errorText: snapshot.error,
+              icon: Icon(Icons.alternate_email,color: Colors.deepPurple,),
+              hintText: 'Example@mail.com',
+              labelText: 'Email',
+              errorText: snapshot.error,
             ),
             onChanged: bloc.changeEmail,
           ),
@@ -157,10 +160,10 @@ class LoginPage extends StatelessWidget{
           child: TextField(
             obscureText: true,
             decoration: InputDecoration(
-                icon: Icon(Icons.lock,color: Colors.deepPurple,),
+              icon: Icon(Icons.lock,color: Colors.deepPurple,),
 
-                labelText: 'Password',
-                errorText: snapshot.error,
+              labelText: 'Password',
+              errorText: snapshot.error,
             ),
             onChanged: bloc.changePassword,
           ),
@@ -186,15 +189,16 @@ class LoginPage extends StatelessWidget{
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? ()=>_login(bloc,context) : null,
+          onPressed: snapshot.hasData ? ()=>_register(bloc,context) : null,
         );      },
     );
 
   }
 
-  _login (LoginBloc bloc, BuildContext context){
+  _register (LoginBloc bloc, BuildContext context){
+    userProvider.newUser(bloc.email, bloc.password);
 
-    Navigator.pushNamed(context, 'home');
+//    Navigator.pushNamed(context, 'home');
 
   }
 
